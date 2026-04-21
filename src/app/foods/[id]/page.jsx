@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import React from "react";
 
 export function generateStaticParams() {
@@ -6,7 +7,7 @@ export function generateStaticParams() {
 
 const getSingleFood = async (id) => {
   const res = await fetch(
-    `https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`
+    `https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`,
   );
 
   const data = await res.json();
@@ -17,12 +18,8 @@ const Page = async ({ params }) => {
   const { id } = await params;
   const food = await getSingleFood(id);
 
-  if (!food) {
-    return (
-      <div className="text-center py-20 text-xl font-semibold">
-        Food not found ❌
-      </div>
-    );
+  if (!food.title) {
+    return redirect("/foods");
   }
 
   const { title, foodImg, price, video, category, area } = food;

@@ -1,4 +1,5 @@
 import FeedbackCard from "@/components/cards/FeedBackCard";
+import next from "next";
 import Link from "next/link";
 import React from "react";
 
@@ -7,7 +8,10 @@ export const metadata = {
 };
 
 const getFeedbacks = async () => {
-  const res = await fetch("http://localhost:3000/api/feedback");
+  const res = await fetch("http://localhost:3000/api/feedback", {
+    cache: "force-cache",
+    next: { revalidate: 60 },
+  });
 
   return res.json();
 };

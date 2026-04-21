@@ -1,5 +1,6 @@
 import { connect } from "@/app/lib/dbConnect";
 import { ObjectId } from "mongodb";
+import { revalidatePath } from "next/cache";
 
 const feedbackConnection = connect("feedbackDB");
 
@@ -54,6 +55,7 @@ export async function PATCH(request, { params }) {
   };
 
   const result = await feedbackConnection.updateOne(query, newData);
+  revalidatePath("/feedbacks");
 
   return Response.json(result);
 }
